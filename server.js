@@ -2,10 +2,10 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const notes = require("./Develop/db/db.json");
-const { DH_CHECK_P_NOT_SAFE_PRIME, SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require("constants");
+
 
 const app = express();
-var PORT = process.env.PORT || 3017;
+var PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
