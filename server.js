@@ -1,38 +1,69 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-//const util = require("util");
+const util = require("util");
 const app = express();
-const PORT = process.env.PORT || 3017;
+const PORT = process.env.PORT || 3001;
 
-const api = require('./routes/api.js');
-const html = require('./routes/html.js');
-//GET API db.json
-app.get("/notes", (req, res) => {
-    res.sendFile(path.join(__dirname, "./Develop/db/db.json"))
+
+const readFileAsync = util.promisify(fs.readFile);
+const writeFileAsync = util.promisify(fs.writeFile);
+
+app.use(express.urlencoded({ extended: true}));
+app.use(express.json());
+
+app.use(express.static("./develop/public"));
+
+//Api routes
+app.get("/api/notes", function(req, res){
+    readFileAsync("./Develop/db/db.json","utf8").then(function(data){
+        notes =[].concat(JSON.parse(data))
+        res.json(notes);
+    })
 });
 
-// Post function to add new notes to db.json
-app.post("/notes", (req, res) => {
-    const notes = JSON.parse(fs.readFileSync("./Develop/db/db.json"));
-    const newNotes = req.body;
-    newNotes.id = uuid.v4();
-    notes.push(newNotes);
-    fs.writeFileSync("./Develop/db/db.json", JSON.stringify(notes))
-    res.json(notes);
+app.post("/api/notes",function(req,res){
+    const note =req.body;
+    readFileAsync("./Develop/db/db.json","utf8").then(function(data){
+        const notes =[].concat(JSON.parse(data));
+        note.id=notes.length + 1
+        notes.push(note);
+        return notes}).then(function(notes){
+            writeFileAsync("./Develop/db/db.json", JSON.stringify(notes))
+            res.json(note);
+        })
 });
 
-//used for deleting notes
-app.delete("/notes/:id", (req, res) => {
-    const notes = JSON.parse(fs.readFileSync("./Develop/db/db.json"));
-    const delNote = notes.filter((rmvNote) => rmvNote.id !== req.params.id);
-    fs.writeFileSync("./Develop/db/db.json", JSON.stringify(delNote));
-    res.json(delNote);
-})
-
-//Start listen
-app.listen(PORT, function () {
-    console.log("App listening on PORT: " + PORT);
+ app.delete("/api/notes/:id", function(req, res){
+    const idToDelete= parseInt(req.params.id);
+    readFileAsync("./Develop/db/db.json","utf8").then(function(data){
+        const notes =[].concat(JSON.parse(data));
+        const newNotesData=[]
+        for (let i=0; i<notes.length; i++){
+            if(idToDelete !== notes[i].id){
+newNotesData.push(notes[i])
+            }
+        }
+        return newNotesData}).then(function(notes){
+            writeFileAsync("./Develop/db/db.json",JSON.stringify(notes))
+            res.send('saved success');
+        })
 });
 
-module.exports={postDb, deleteDb};
+//HTMLRoutes
+app.get("/notes", function(req,res){
+res.sendFile(path.join(__dirname,"./Develop/public/notes.html"))
+});
+
+app.get("/", function(req,res){
+    res.send.join(path.join(__dirname,"./Develop/public/index.html"))
+});
+
+app.get("*", function(req,res){
+    res.send.join(path.join(__dirname,"./Develop/public/index.html"))
+});
+
+//Listening
+app.listen(PORT, function(){
+    console.log("App listening on PORT"+PORT)
+});
