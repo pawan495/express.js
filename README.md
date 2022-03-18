@@ -5,6 +5,7 @@ The Note-Taker tool is launched by express.js. You can used this app to create a
 
 ## Start app
 If you have Install npm, then type npm start in your vs code and type localhost:3001 in your browser. You see NoteTaker there.
+for install package for npm(https://phoenixnap.com/kb/install-npm-mac)
 
 ## Help
 I faced problems but I get help from tutor, a lot from ask BCS and google(https://www.google.com)
