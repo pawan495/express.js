@@ -12,7 +12,7 @@ const writeFileAsync = util.promisify(fs.writeFile);
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
-app.use(express.static("./develop/public"));
+app.use(express.static("./Develop/public"));
 
 //Api routes
 app.get("/api/notes", function(req, res){
@@ -56,7 +56,7 @@ res.sendFile(path.join(__dirname,"./Develop/public/notes.html"))
 });
 
 app.get("/", function(req,res){
-    res.send.join(path.join(__dirname,"./Develop/public/index.html"))
+    res.sendFile(path.join(__dirname,"./Develop/public/index.html"))
 });
 
 app.get("*", function(req,res){
