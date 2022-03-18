@@ -11,4 +11,4 @@ GitHub URL:
 
 Preview:
 
-![Screenshot Preview](./Develop/public/assets/css/pic1.png)
+[Screenshot Preview](./Develop/public/assets/css/pic1.png)
