@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 
 app.use(express.static("./develop/public"));
- 
+
 //Api routes
 app.get("/api/notes", function(req, res){
     readFileAsync("./Develop/db/db.json","utf8").then(function(data){
