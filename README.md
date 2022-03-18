@@ -7,8 +7,9 @@ Heroku URL:
 [Click here](https://notetaker202.herokuapp.com/)
 
 GitHub URL:
+[Click here](https://github.com/pawan495/express.js.git)
 
 
 Preview:
 
-[Screenshot Preview](./Develop/public/assets/css/pic1.png)
+![Screenshot Preview](./Develop//public/assets/css/pic1.png)
