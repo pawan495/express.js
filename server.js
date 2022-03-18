@@ -60,7 +60,7 @@ app.get("/", function(req,res){
 });
 
 app.get("*", function(req,res){
-    res.send.join(path.join(__dirname,"./Develop/public/index.html"))
+    res.sendFile(path.join(__dirname,"./Develop/public/index.html"))
 });
 
 //Listening
